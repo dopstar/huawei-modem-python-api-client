@@ -1,14 +1,16 @@
-from xml.dom import minidom
-from xml.dom.minidom import Document
-
 import six
+from typing import Union
+from xml.dom import minidom
+from xml.dom.minidom import Element, Document
 
 
 def get_element_text(elem):
+    # type: (Element) -> str
     return " ".join(t.nodeValue for t in elem.childNodes if t.nodeType == t.TEXT_NODE)
 
 
 def get_child_text(elem, node_name):
+    # type: (Element, str) -> Union[str, None]
     children = elem.getElementsByTagName(node_name)
     if children:
         return get_element_text(children[0])
@@ -16,6 +18,7 @@ def get_child_text(elem, node_name):
 
 
 def elements_dictionary(elem):
+    # type: (Element) -> dict
     ret = {}
     for node in elem.childNodes:
         if node.nodeType == node.ELEMENT_NODE:
@@ -30,6 +33,8 @@ def elements_dictionary(elem):
 
 
 def get_dictionary_from_children(elem):
+    # type: (Element) -> ...
+
     ret = elements_dictionary(elem)
 
     for node in elem.childNodes:
@@ -51,11 +56,13 @@ def get_dictionary_from_children(elem):
 
 
 def parse_xml_string(xml_string):
+    # type: (str) -> Document
     parseable_xml_string = six.ensure_str(xml_string)
     return minidom.parseString(parseable_xml_string)
 
 
 def dict_to_xml(data):
+    # type: (dict) -> str
     if not data:
         return ''
 

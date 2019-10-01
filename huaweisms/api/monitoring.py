@@ -1,4 +1,4 @@
-from huaweisms.api.common import get_from_url
+from huaweisms.api.common import get_from_url, ApiCtx
 
 
 def status(ctx):
