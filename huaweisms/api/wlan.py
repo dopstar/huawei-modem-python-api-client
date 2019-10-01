@@ -3,13 +3,11 @@ import huaweisms.xml.util
 
 
 def get_connected_hosts(ctx):
-    # type: (huaweisms.api.common.ApiCtx) -> ...
     url = "{}/wlan/host-list".format(ctx.api_base_url)
     return huaweisms.api.common.get_from_url(url, ctx)
 
 
-def block_host(ctx, mac_address, hostname = None):
-    # type: (huaweisms.api.common.ApiCtx, str, str) -> ...
+def block_host(ctx, mac_address, hostname=None):
     """
     Blocks/blacklists the given hosts.
 
@@ -43,7 +41,6 @@ def block_host(ctx, mac_address, hostname = None):
 
 
 def unblock_host(ctx, mac_address):
-    # type: (huaweisms.api.common.ApiCtx, str) -> ...
     """
     Unblocks/un-blacklists the given hosts.
 
@@ -72,13 +69,11 @@ def unblock_host(ctx, mac_address):
 
 
 def get_blocked_hosts(ctx):
-    # type: (huaweisms.api.common.ApiCtx) -> ...
     url = '{}/wlan/multi-macfilter-settings'.format(ctx.api_base_url)
     return huaweisms.api.common.get_from_url(url, ctx)
 
 
 def is_host_blocked(ctx, mac_address):
-    # type: (huaweisms.api.common.ApiCtx, str) -> bool
     response = get_blocked_hosts(ctx)
     if not response or response.get('type') != 'response':
         raise ValueError(response)

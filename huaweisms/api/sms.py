@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import six
-from huaweisms.api.common import post_to_url, ApiCtx, get_from_url
+from huaweisms.api.common import post_to_url, get_from_url
 
 
 def get_sms(ctx, box_type=1, page=1, qty=1, unread_preferred=True):

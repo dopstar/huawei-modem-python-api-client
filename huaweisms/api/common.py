@@ -1,6 +1,4 @@
 import logging
-from typing import Union
-from xml.dom.minidom import Element
 
 import requests
 from huaweisms.api.config import MODEM_HOST
@@ -14,7 +12,6 @@ logger = logging.getLogger(__name__)
 class ApiCtx:
 
     def __init__(self, modem_host=None):
-        # type: (...) -> None
         self.session_id = None
         self.logged_in = False
         self.login_token = None
@@ -52,7 +49,6 @@ def common_headers():
 
 
 def check_error(elem):
-    # type: (Element) -> Union[dict, None]
     if elem.nodeName != "error":
         return None
 
@@ -66,7 +62,6 @@ def check_error(elem):
 
 
 def api_response(r):
-    # type: (requests.Response) -> dict
     if r.status_code != 200:
         r.raise_for_status()
 
@@ -83,7 +78,6 @@ def api_response(r):
 
 
 def check_response_headers(resp, ctx):
-    # type: (..., ApiCtx) -> ...
     if '__RequestVerificationToken' in resp.headers:
         toks = [x for x in resp.headers['__RequestVerificationToken'].split("#") if x != '']
         if len(toks) > 1:
@@ -95,8 +89,7 @@ def check_response_headers(resp, ctx):
         ctx.session_id = resp.cookies['SessionID']
 
 
-def post_to_url(url, data, ctx = None, additional_headers = None):
-    # type: (str, str, ApiCtx, dict) -> dict
+def post_to_url(url, data, ctx=None, additional_headers=None):
     cookies = build_cookies(ctx)
     headers = common_headers()
 
@@ -108,9 +101,7 @@ def post_to_url(url, data, ctx = None, additional_headers = None):
     return api_response(r)
 
 
-def get_from_url(url, ctx = None, additional_headers = None,
-                 timeout = None):
-    # type: (str, ApiCtx, dict, int) -> dict
+def get_from_url(url, ctx=None, additional_headers=None, timeout=None):
     cookies = build_cookies(ctx)
     headers = common_headers()
 
@@ -123,7 +114,6 @@ def get_from_url(url, ctx = None, additional_headers = None,
 
 
 def build_cookies(ctx):
-    # type: (ApiCtx) -> ...
     cookies = None
     if ctx and ctx.session_id:
         cookies = {
